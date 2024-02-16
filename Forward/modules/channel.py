@@ -26,8 +26,8 @@ async def media(_, message):
                 message.audio.file_name if message.audio else None
     
     if file_name and any(keyword in file_name.lower() for keyword in ["SO1"]):
-        await app.copy_message(chat_id=OTHER_ID, from_chat_id=FORWARD_IDS, message_id=message.message_id)
+        await app.copy_message(chat_id=OTHER_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
     else:
-        await app.copy_message(chat_id=CHANNEL_ID, from_chat_id=FORWARD_IDS, message_id=message.message_id)
+        await app.copy_message(chat_id=CHANNEL_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
 
 
