@@ -1,10 +1,5 @@
 pyrogram
 tgcrypto
-lexica-api
 pymongo
-pillow
-aiohttp
 requests
-psutil
-openai
-elevenlabs
+
