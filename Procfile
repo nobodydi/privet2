@@ -1,1 +1,1 @@
-worker: python -m Natasha
+worker: python -m Forward
