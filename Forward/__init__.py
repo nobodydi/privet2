@@ -14,7 +14,7 @@ logging.basicConfig(
 
 
 app = Client(
-    ":Natasha:",
+    ":ForwardBot:",
     api_id=API_ID,
     api_hash=API_HASH,
     bot_token=BOT_TOKEN,
@@ -22,7 +22,7 @@ app = Client(
 
 
 
-async def natasha_bot():
+async def forward_bot():
     global BOT_ID, BOT_NAME, BOT_USERNAME
     await app.start()
     getme = await app.get_me()
@@ -34,6 +34,6 @@ async def natasha_bot():
         BOT_NAME = getme.first_name
 
 
-loop.run_until_complete(natasha_bot())
+loop.run_until_complete(forward_bot())
 
 
