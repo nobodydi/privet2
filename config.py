@@ -8,4 +8,5 @@ SUDO_USERS = list(map(int, getenv("SUDO_USERS", "6280103226").split()))
 
 # --------------- Channel ------------ #
 FORWARD_IDS = -1001652627420
-CHANNEL_ID = -1001919135283
+CHANNEL_ID = -1002045076727
+OTHER_ID = -1002142358903
