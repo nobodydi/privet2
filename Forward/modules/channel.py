@@ -25,8 +25,8 @@ async def media(_, message):
                 message.video.file_name if message.video else \
                 message.audio.file_name if message.audio else None
     print(file_name)
-    for i in list(file_name.lower()):
-        if i in x.lower():
+    for i in list(file_name):
+        if i in x:
             await app.copy_message(chat_id=OTHER_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
         else:
             await app.copy_message(chat_id=CHANNEL_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
