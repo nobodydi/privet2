@@ -5,7 +5,7 @@ from time import time
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from config import SUDO_USERS
-from Natasha import app
+from Forward import app
 
 
 
@@ -210,11 +210,3 @@ async def shellrunner(_, message):
 
 
   
-@app.on_message(filters.command("update") & filters.user(SUDO_USERS))
-async def update(_, message):
-    msg = await message.reply_text("Pulling changes with latest commits...", quote=True)
-    os.system("git pull")
-    await msg.edit("Changes pulled with latest commits. Restarting bot now... ")
-    os.execl(sys.executable, sys.executable, "-m", "Natasha")
-
-
