@@ -7,5 +7,5 @@ BOT_TOKEN = getenv("BOT_TOKEN", "6315381025:AAHQbodUGYQ2r6q1Fi0cjbeFelhn_4s2zAY"
 SUDO_USERS = list(map(int, getenv("SUDO_USERS", "6280103226").split()))
 
 # --------------- Channel ------------ #
-FORWARD_ID = []
-CHANNEL_ID = []
+FORWARD_IDS = -1001652627420
+CHANNEL_ID = -1001919135283
