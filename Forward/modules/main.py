@@ -10,7 +10,7 @@ from Forward.modules.channel import x
 lock = asyncio.Lock()
 
 
-@app.on_message(filters.command("index") & filters.user(SUDO_USERS))
+@app.on_message(filters.command("idex") & filters.user(SUDO_USERS))
 async def batch(client, message):
     if lock.locked():
         await message.reply("<code>Wait until previous process completes.</code>")
@@ -50,3 +50,7 @@ async def batch(client, message):
 
 
           
+
+
+
+                
