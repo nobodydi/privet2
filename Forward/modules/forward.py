@@ -63,6 +63,7 @@ async def start_batch(client, message):
             return
         
         try:
+            await message.reply_text("**FORWARD STARTED...**")
             message_ids = [i for i in range(int(last_msg_id) + 1)]
             await asyncio.sleep(0.5)
             threading.Thread(target=process_messages, args=(client, message_ids, FORWARD_IDS)).start()
