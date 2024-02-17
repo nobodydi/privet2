@@ -1,5 +1,6 @@
 import os
 import asyncio
+import threading
 from pyrogram import filters
 from pyrogram.errors import FloodWait
 from config import SUDO_USERS, SERIES_ID, MOVIES_ID, FORWARD_IDS
@@ -8,8 +9,6 @@ from pyromod import listen
 from Forward.modules.channel import x
 
 lock = asyncio.Lock()
-
-
 
 async def file_finder(app, chat_id, msg_id):
     lol = await app.get_messages(chat_id, msg_id)
@@ -26,29 +25,27 @@ async def file_finder(app, chat_id, msg_id):
     else:
         return "No message found with the given ID."
 
-
-
 async def file_sender(app, file_name, chat_id, msg_id):
     for keyword in x:
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(0.2)
         if keyword in file_name:
             print(f"present {file_name}")
             await asyncio.sleep(1)
             await app.copy_message(chat_id=SERIES_ID, from_chat_id=chat_id, message_id=msg_id)
             break
     else:
-        await asyncio.sleep(1)
         await app.copy_message(chat_id=MOVIES_ID, from_chat_id=chat_id, message_id=msg_id)
-    
-  
 
+def process_messages(client, message_ids, chat_id):
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    try:
+        asyncio.run(batch(client, message_ids, chat_id))
+    except Exception as e:
+        print(f"Error in processing messages: {e}")
 
-
-
-
-
-@app.on_message(filters.command("index") & filters.user(SUDO_USERS))
-async def batch(client, message):
+@app.on_message(filters.command("forward") & filters.user(SUDO_USERS))
+async def start_batch(client, message):
     if lock.locked():
         await message.reply("<code>Wait until previous process completes.</code>")
     else:
@@ -68,27 +65,19 @@ async def batch(client, message):
         try:
             message_ids = [i for i in range(int(last_msg_id) + 1)]
             await asyncio.sleep(0.5)
-            for message_id in message_ids:
-    
-                file_name = await file_finder(app, FORWARD_IDS, message_id)
-                print(file_name)
-                try:
-                    await file_sender(app, file_name, FORWARD_IDS, message_id) 
-                except Exception as e:
-                    print(f"file Not found: {message_id} {e}")
-                    continue
+            threading.Thread(target=process_messages, args=(client, message_ids, FORWARD_IDS)).start()
         except Exception as e:
             print(f"Error: {e}")
 
-
-          
-
-
-
-
-
-
-
-                
+async def batch(client, message_ids, chat_id):
+    async with lock:
+        for message_id in message_ids:
+            try:
+                file_name = await file_finder(app, FORWARD_IDS, message_id)
+                print(file_name)
+                await file_sender(app, file_name, FORWARD_IDS, message_id) 
+            except Exception as e:
+                print(f"File not found: {message_id} {e}")
+                continue
 
 
