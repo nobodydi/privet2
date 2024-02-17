@@ -28,6 +28,33 @@ async def file_finder(app, chat_id, msg_id):
 
 
 
+async def file_sender(app, file_name, chat_id, msg_id):
+    for keyword in x:
+        await asyncio.sleep(0.5)
+        if keyword in file_name:
+            print(f"present {file_name}")
+            try:
+                await asyncio.sleep(1)
+                await app.copy_message(chat_id=SERIES_ID, from_chat_id=chat_id, message_id=msg_id)
+                break
+            except Exception as e:
+                print(f"Failed to copy message {msg_id}: {e}")
+                continue
+    else:
+        try:
+            await asyncio.sleep(1)
+            await app.copy_message(chat_id=MOVIES_ID, from_chat_id=chat_id, message_id=msg_id)
+        except Exception as e:
+            print(f"Failed {message_id}: {e}")
+            continue
+
+  
+
+
+
+
+
+
 @app.on_message(filters.command("index") & filters.user(SUDO_USERS))
 async def batch(client, message):
     if lock.locked():
@@ -53,23 +80,7 @@ async def batch(client, message):
     
                 file_name = await file_finder(app, FORWARD_IDS, message_id)
                 print(file_name)
-                for keyword in x:
-                    await asyncio.sleep(0.5)
-                    if keyword in file_name:
-                        try:
-                            await asyncio.sleep(1)
-                            await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
-                            break
-                        except Exception as e:
-                            print(f"Failed to copy message {msg_id}: {e}")
-                            continue
-                else:
-                    try:
-                        await asyncio.sleep(1)
-                        await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
-                    except Exception as e:
-                        print(f"Failed {message_id}: {e}")
-                        continue           
+                await file_sender(app, file_name, FORWARD_IDS, message_id)           
         except Exception as e:
             print(f"Error: {e}")
 
