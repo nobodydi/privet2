@@ -30,18 +30,39 @@ async def batch(client, message):
         
         try:
             message_ids = [i for i in range(int(last_msg_id) + 1)]
-            asyncio.sleep(0.5)
+            await asyncio.sleep(0.5)
             for message_id in message_ids:
-                try:
-                    await asyncio.sleep(1)
-                    await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
-                except Exception as e:
-                    print(f"Failed {message_id}: {e}")
-                    continue           
+                lol = await client.get_messages(chat_id, message_id)
+                file_name = None
+                if not file_name:
+                    if "document" in lol:
+                        file_name = lol.document.file_name
+                    elif "video" in lol:   
+                        file_name = lol.video.file_name
+                
+                print(file_name)
+                for keyword in x:
+                    await asyncio.sleep(0.5)
+                    if keyword in file_name:
+                        try:
+                            await asyncio.sleep(1)
+                            await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=msg_id)
+                            break
+                        except Exception as e:
+                            print(f"Failed to copy message {msg_id}: {e}")
+                            continue
+                else:
+                    try:
+                        await asyncio.sleep(1)
+                        await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
+                    except Exception as e:
+                        print(f"Failed {message_id}: {e}")
+                        continue           
         except Exception as e:
-            print(e)
+            print(f"Error: {e}")
 
 
           
 
 
+                
