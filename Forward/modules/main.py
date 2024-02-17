@@ -29,8 +29,8 @@ async def batch(client, message):
             return
         
         try:
-            message_ids = [i for i in range(1027906 + 1)]
-
+            message_ids = [i for i in range(int(last_msg_id) + 1)]
+            asyncio.sleep(0.5)
             for message_id in message_ids:
                 try:
                     await asyncio.sleep(1)
