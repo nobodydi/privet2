@@ -26,7 +26,7 @@ async def batch(client, message):
         try:
             await message.reply_text("file transfering...")
             i = 0
-            for i in last_msg_id:
+            for i in range(int(last_msg_id)):
                 lol = await client.get_messages(chat_id, i)
                 if "document" in lol:
                     file_name = lol.docoument.file_name
