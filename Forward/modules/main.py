@@ -29,22 +29,15 @@ async def batch(client, message):
             return
         
         try:
-            last_msg_id = last_msg_id
-            await message.reply_text("file transferring...")
-            total_ids = [i for i in range(int(last_msg_id) + 1)]
-            for msg_id in total_ids:
-                await asyncio.sleep(0.5)
-                lol = await client.get_messages(chat_id, msg_id)
-                file_name = None
-                if "document" in lol:
-                    file_name = lol.document.file_name
-                elif "video" in lol:   
-                    file_name = lol.video.file_name
-                print(file_name)
-                
-                await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=msg_id)
-                    
-            await message.reply_text("Completed copying messages.")
+            message_ids = [i for i in range(1027906 + 1)]
+
+            for message_id in message_ids:
+                try:
+                    await asyncio.sleep(1)
+                    await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
+                except Exception as e:
+                print(f"Failed {message_id}: {e}")
+                continue           
         except Exception as e:
             print(e)
 
@@ -52,5 +45,3 @@ async def batch(client, message):
           
 
 
-
-                
