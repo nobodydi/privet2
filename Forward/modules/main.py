@@ -46,7 +46,7 @@ async def batch(client, message):
                     if keyword in file_name:
                         try:
                             await asyncio.sleep(1)
-                            await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=msg_id)
+                            await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
                             break
                         except Exception as e:
                             print(f"Failed to copy message {msg_id}: {e}")
