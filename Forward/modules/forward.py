@@ -21,7 +21,7 @@ async def batch(client, message):
             chat_id = last_msg.forward_from_chat.username or last_msg.forward_from_chat.id
             lol = await client.get_messages(chat_id, last_msg_id)
         except Exception as e:
-            await last_msg.reply_text(f"<code>This is an invalid message, either the channel is private and bot is not an admin in the forwarded chat, or you forwarded messages as copy.\nError: {e}</code>")
+            await last_msg.reply_text(f"Error: {e}")
         
         try:
             for i in int(last_msg_id):
