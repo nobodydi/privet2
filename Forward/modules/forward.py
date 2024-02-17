@@ -24,13 +24,15 @@ async def batch(client, message):
             await last_msg.reply_text(f"Error: {e}")
         
         try:
-            for i in int(last_msg_id):
-                lol = await client.get_messages(chat_id, last_msg_id)
+            await messsage.reply_text("file transfering...")
+            for i in last_msg_id:
+                lol = await client.get_messages(chat_id, i)
                 if "document" in lol:
                     file_name = lol.docoument.file_name
                 elif "video" in lol:   
                     file_name = lol.video.file_name
                 print(file_name)
+                print(f"message id: {i}")
                 for keyword in x:
                     if keyword in file_name:
                         try:
