@@ -20,6 +20,7 @@ async def batch(client, message):
             last_msg_id = last_msg.forward_from_message_id
             chat_id = last_msg.forward_from_chat.username or last_msg.forward_from_chat.id
             lol = await client.get_messages(chat_id, last_msg_id)
+            await message.reply_text(f"{chat_id} {last_msg_id}")
         except Exception as e:
             await last_msg.reply_text(f"Error: {e}")
         
