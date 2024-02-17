@@ -33,21 +33,13 @@ async def file_sender(app, file_name, chat_id, msg_id):
         await asyncio.sleep(0.5)
         if keyword in file_name:
             print(f"present {file_name}")
-            try:
-                await asyncio.sleep(1)
-                await app.copy_message(chat_id=SERIES_ID, from_chat_id=chat_id, message_id=msg_id)
-                break
-            except Exception as e:
-                print(f"Failed to copy message {msg_id}: {e}")
-                return continue
-    else:
-        try:
             await asyncio.sleep(1)
-            await app.copy_message(chat_id=MOVIES_ID, from_chat_id=chat_id, message_id=msg_id)
-        except Exception as e:
-            print(f"Failed {message_id}: {e}")
-            return continue
-
+            await app.copy_message(chat_id=SERIES_ID, from_chat_id=chat_id, message_id=msg_id)
+            break
+    else:
+        await asyncio.sleep(1)
+        await app.copy_message(chat_id=MOVIES_ID, from_chat_id=chat_id, message_id=msg_id)
+    
   
 
 
@@ -80,7 +72,11 @@ async def batch(client, message):
     
                 file_name = await file_finder(app, FORWARD_IDS, message_id)
                 print(file_name)
-                await file_sender(app, file_name, FORWARD_IDS, message_id)           
+                try:
+                    await file_sender(app, file_name, FORWARD_IDS, message_id) 
+                except Exception as e:
+                    print(f"file Not found: {message_id} {e}")
+                    continue
         except Exception as e:
             print(f"Error: {e}")
 
