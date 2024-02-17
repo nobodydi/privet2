@@ -51,6 +51,8 @@ async def batch(client, message):
             await asyncio.sleep(0.5)
             for message_id in message_ids:
                 try:
+                    x = await file_finder(app, FORWARD_IDS, message_id)
+                    print(x)
                     await asyncio.sleep(1)
                     await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
                 except Exception as e:
