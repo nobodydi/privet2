@@ -20,14 +20,16 @@ async def batch(client, message):
             last_msg_id = last_msg.forward_from_message_id
             chat_id = last_msg.forward_from_chat.username or last_msg.forward_from_chat.id
             lol = await client.get_messages(chat_id, last_msg_id)
-            await message.reply_text(f"{chat_id} {last_msg_id}")
+            
         except Exception as e:
             await last_msg.reply_text(f"Error: {e}")
         
         try:
             await message.reply_text("file transfering...")
-            msg_id = 0
-            for msg_id in range(int(last_msg_id)):
+            
+            total_ids = [i for i in range(int(last_msg_id) + 1)]
+            for msg_id in total_ids:
+                await asyncio.sleep(0.5)
                 lol = await client.get_messages(chat_id, msg_id)
                 if "document" in lol:
                     file_name = lol.docoument.file_name
