@@ -24,7 +24,7 @@ async def batch(client, message):
             await last_msg.reply_text(f"Error: {e}")
         
         try:
-            await messsage.reply_text("file transfering...")
+            await message.reply_text("file transfering...")
             for i in last_msg_id:
                 lol = await client.get_messages(chat_id, i)
                 if "document" in lol:
