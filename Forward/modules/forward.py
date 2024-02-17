@@ -39,14 +39,14 @@ async def file_sender(app, file_name, chat_id, msg_id):
                 break
             except Exception as e:
                 print(f"Failed to copy message {msg_id}: {e}")
-                continue
+                return continue
     else:
         try:
             await asyncio.sleep(1)
             await app.copy_message(chat_id=MOVIES_ID, from_chat_id=chat_id, message_id=msg_id)
         except Exception as e:
             print(f"Failed {message_id}: {e}")
-            continue
+            return continue
 
   
 
