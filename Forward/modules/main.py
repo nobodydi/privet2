@@ -32,19 +32,6 @@ async def batch(client, message):
             message_ids = [i for i in range(int(last_msg_id) + 1)]
             await asyncio.sleep(0.5)
             for message_id in message_ids:
-                lol = await app.get_messages(FORWARD_IDS, message_id)
-                file_name = None
-                if lol:
-                    if lol.document:
-                        file_name = lol.document.file_name
-                    elif lol.video:
-                        file_name = lol.video.file_name
-                    else:
-                        print("No media found in the message.")
-                else:
-                    print("No message found with the given ID.")
-
-                print(file_name)
                 try:
                     await asyncio.sleep(1)
                     await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
