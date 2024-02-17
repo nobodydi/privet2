@@ -11,8 +11,8 @@ lock = asyncio.Lock()
 
 
 
-async def file_find(FORWARDS_IDS, msg_id):
-    lol = await app.get_messages(FORWARD_IDS, msg_id)
+async def file_find(app, chat_id, msg_id):
+    lol = await app.get_messages(chat_id, msg_id)
     file_name = None
     if lol:
         if lol.document:
@@ -22,9 +22,9 @@ async def file_find(FORWARDS_IDS, msg_id):
             file_name = lol.video.file_name
             return file_name
         else:
-            print("No media found in the message.")
+            return "No media found in the message."
     else:
-        print("No message found with the given ID.")
+        return "No message found with the given ID."
 
 
 
