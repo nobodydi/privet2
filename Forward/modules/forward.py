@@ -21,58 +21,13 @@ async def batch(client, message):
             try:
                 last_msg_id = last_msg.forward_from_message_id
                 chat_id = last_msg.forward_from_chat.username or last_msg.forward_from_chat.id
-                await client.get_messages(chat_id, last_msg_id)
+                lol = await client.get_messages(chat_id, last_msg_id)
+                await message.reply(lol)
+                await message.reply(f"{last_msg_id} {chat_id}")
                 break
             except Exception as e:
                 await last_msg.reply_text(f"<code>This is an invalid message, either the channel is private and bot is not an admin in the forwarded chat, or you forwarded messages as copy.\nError: {e}</code>")
                 continue
 
-        msg = await message.reply('Processing...⏳')
-        total_files = 0
-        async with lock:
-            try:
-                total = last_msg_id + 1
-                current = int(os.environ.get("SKIP", 2))
-                nyav = 0
-                while True:
-                    try:
-                        message = await client.get_messages(chat_id=chat_id, message_ids=current, replies=0)
-                    except FloodWait as e:
-                        await asyncio.sleep(e.x)
-                        message = await client.get_messages(chat_id, current, replies=0)
-                    except Exception as e:
-                        print(e)
-                    try:
-                        for file_type in ("document", "video", "audio"):
-                            media = getattr(message, file_type, None)
-                            if media is not None:
-                                break
-                        else:
-                            continue
-                        media.file_type = file_type
-                        media.caption = message.caption
-                        for keyword in x:
-                            if keyword in media.caption:
-                                await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
-                                break
-                        else:
-                            await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message.id)
+       
         
-                        total_files += 1
-                    except Exception as e:
-                        print(e)
-                    current += 1
-                    nyav += 1
-                    if nyav == 20:
-                        await msg.edit(f"🖨️ Total messages fetched: {current}\n🎬 Total messages saved: {total_files}")
-                        nyav -= 20
-                    if current == total:
-                        break
-                await msg.edit(f"🎬 Total {total_files} saved to database")
-            except Exception as e:
-                print(e)
-                await msg.edit(f'Error: {e}')
-
-
-
-                                        
