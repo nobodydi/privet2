@@ -10,7 +10,6 @@ from Forward.modules.channel import x
 lock = asyncio.Lock()
 
 
-
 @app.on_message(filters.command("index") & filters.user(SUDO_USERS))
 async def batch(client, message):
     if lock.locked():
@@ -29,20 +28,24 @@ async def batch(client, message):
 
         except Exception as e:
             await last_msg.reply_text(f"<code>This is an invalid message, either the channel is private and bot is not an admin in the forwarded chat, or you forwarded messages as copy.\nError: {e}</code>")
+        
         try:
             print(file_name)
             for i in int(last_msg_id):
                 for keyword in x:
                     if keyword in file_name:
-                        await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=i)
+                        try:
+                            await app.copy_message(chat_id=SERIES_ID, from_chat_id=FORWARD_IDS, message_id=i)
+                        except Exception as e:
+                            print(f"Failed to copy message {i}: {e}")
+                            continue
                         break
                 else:
-                    await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=i)
+                    try:
+                        await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=i)
+                    except Exception as e:
+                        print(f"Failed to copy message {i}: {e}")
+                        continue
 
         except Exception as e:
             print(e)
-            continue
-                
-
-       
-        
