@@ -36,8 +36,8 @@ async def batch(client, message):
                     await asyncio.sleep(1)
                     await app.copy_message(chat_id=MOVIES_ID, from_chat_id=FORWARD_IDS, message_id=message_id)
                 except Exception as e:
-                print(f"Failed {message_id}: {e}")
-                continue           
+                    print(f"Failed {message_id}: {e}")
+                    continue           
         except Exception as e:
             print(e)
 
