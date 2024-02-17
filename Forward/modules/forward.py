@@ -20,18 +20,17 @@ async def batch(client, message):
             last_msg_id = last_msg.forward_from_message_id
             chat_id = last_msg.forward_from_chat.username or last_msg.forward_from_chat.id
             lol = await client.get_messages(chat_id, last_msg_id)
-                
-            if "document" in lol:
-                file_name = lol.docoument.file_name
-            elif "video" in lol:
-                file_name = lol.video.file_name
-
         except Exception as e:
             await last_msg.reply_text(f"<code>This is an invalid message, either the channel is private and bot is not an admin in the forwarded chat, or you forwarded messages as copy.\nError: {e}</code>")
         
         try:
-            print(file_name)
             for i in int(last_msg_id):
+                lol = await client.get_messages(chat_id, last_msg_id)
+                if "document" in lol:
+                    file_name = lol.docoument.file_name
+                elif "video" in lol:   
+                    file_name = lol.video.file_name
+                print(file_name)
                 for keyword in x:
                     if keyword in file_name:
                         try:
