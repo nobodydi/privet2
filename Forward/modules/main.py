@@ -10,6 +10,25 @@ from Forward.modules.channel import x
 lock = asyncio.Lock()
 
 
+
+async def file_find(FORWARDS_IDS, msg_id):
+    lol = await app.get_messages(FORWARD_IDS, msg_id)
+    file_name = None
+    if lol:
+        if lol.document:
+            file_name = lol.document.file_name
+            return file_name
+        elif lol.video:
+            file_name = lol.video.file_name
+            return file_name
+        else:
+            print("No media found in the message.")
+    else:
+        print("No message found with the given ID.")
+
+
+
+
 @app.on_message(filters.command("idex") & filters.user(SUDO_USERS))
 async def batch(client, message):
     if lock.locked():
